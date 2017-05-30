@@ -1,33 +1,34 @@
 from pyramid.response import Response
-from pyramid.view import view_config
-
-from sqlalchemy.exc import DBAPIError
-
-from ..models import MyModel
+import os
+import io
 
 
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
-    try:
-        query = request.dbsession.query(MyModel)
-        one = query.filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'learning journal'}
+HERE = os.path.dirname(__file__)
 
 
-db_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
+def list_view(request):
+    """List of journal entries."""
+    with io.open(os.path.join(HERE, '../scripts/index.html')) as file:
+        imported_html = file.read()
+        return Response(imported_html)
 
-1.  You may need to run the "initialize_learning_journal_db" script
-    to initialize your database tables.  Check your virtual
-    environment's "bin" directory for this script and try to run it.
 
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
+def detail_view(request):
+    """View details of an entry."""
+    with io.open(os.path.join(HERE, '../scripts/detail.html')) as file:
+        imported_html = file.read()
+        return Response(imported_html)
 
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
+
+def create_view(request):
+    """Create new journal entries."""
+    with io.open(os.path.join(HERE, '../scripts/new_entry.html')) as file:
+        imported_html = file.read()
+        return Response(imported_html)
+
+
+def update_view(request):
+    """Update existing journal entries."""
+    with io.open(os.path.join(HERE, '../scripts/edit.html')) as file:
+        imported_html = file.read()
+        return Response(imported_html)
