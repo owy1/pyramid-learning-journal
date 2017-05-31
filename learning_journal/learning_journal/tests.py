@@ -9,13 +9,13 @@ HERE = os.path.dirname(__file__)
 
 @pytest.fixture
 def httprequest():
-    req = testing.dummyRequest()
+    req = testing.DummyRequest()
     return req
 
 
 def test_html_views_return_response(httprequest):
     """Home view returns a reponse object."""
-    from pyramid_learning_journal.views.default import (
+    from learning_journal.views.default import (
         list_view,
         detail_view,
         create_view,
@@ -29,15 +29,15 @@ def test_html_views_return_response(httprequest):
 
 def test_list_view_return_proper_content(httprequest):
     """Home view has file content."""
-    from pyramid_learning_journal.views.default import list_view
-    file_content = io.open(os.path.join(HERE, '../scripts/index.html')).read()
+    from learning_journal.views.default import list_view
+    file_content = io.open(os.path.join(HERE, 'scripts/index.html')).read()
     response = list_view(httprequest)
     assert file_content == response.text
 
 
 def test_list_view_is_good():
     """Home view response has file content."""
-    from pyramid_learning_journal.views.default import list_view
+    from learning_journal.views.default import list_view
     response = list_view(httprequest)
     assert response.status_code == 200
 
