@@ -1,0 +1,6 @@
+{% extends 'layout.jinja2' %}
+{% block content %}
+    <a href="{{ request.route_url('update_view') }}"><button>Edit</button></a>
+    <h1>{{ entry.title }}</h1>
+    <p>{{ entry.body }}</p>
+{% endlbock %}
