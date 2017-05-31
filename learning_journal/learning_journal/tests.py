@@ -1,65 +1,48 @@
-import unittest
-import transaction
-
 from pyramid import testing
+from pyramid.response import Response
+import pytest
+import os
+import io
+
+HERE = os.path.dirname(__file__)
 
 
-def dummy_request(dbsession):
-    return testing.DummyRequest(dbsession=dbsession)
+@pytest.fixture
+def httprequest():
+    req = testing.dummyRequest()
+    return req
 
 
-class BaseTest(unittest.TestCase):
-    def setUp(self):
-        self.config = testing.setUp(settings={
-            'sqlalchemy.url': 'sqlite:///:memory:'
-        })
-        self.config.include('.models')
-        settings = self.config.get_settings()
-
-        from .models import (
-            get_engine,
-            get_session_factory,
-            get_tm_session,
-            )
-
-        self.engine = get_engine(settings)
-        session_factory = get_session_factory(self.engine)
-
-        self.session = get_tm_session(session_factory, transaction.manager)
-
-    def init_database(self):
-        from .models.meta import Base
-        Base.metadata.create_all(self.engine)
-
-    def tearDown(self):
-        from .models.meta import Base
-
-        testing.tearDown()
-        transaction.abort()
-        Base.metadata.drop_all(self.engine)
+def test_html_views_return_response(httprequest):
+    """Home view returns a reponse object."""
+    from pyramid_learning_journal.views.default import (
+        list_view,
+        detail_view,
+        create_view,
+        update_view
+    )
+    assert isinstance(list_view(httprequest), Response)
+    assert isinstance(detail_view(httprequest), Response)
+    assert isinstance(create_view(httprequest), Response)
+    assert isinstance(update_view(httprequest), Response)
 
 
-class TestMyViewSuccessCondition(BaseTest):
-
-    def setUp(self):
-        super(TestMyViewSuccessCondition, self).setUp()
-        self.init_database()
-
-        from .models import MyModel
-
-        model = MyModel(name='one', value=55)
-        self.session.add(model)
-
-    def test_passing_view(self):
-        from .views.default import my_view
-        info = my_view(dummy_request(self.session))
-        self.assertEqual(info['one'].name, 'one')
-        self.assertEqual(info['project'], 'learning journal')
+def test_list_view_return_proper_content(httprequest):
+    """Home view has file content."""
+    from pyramid_learning_journal.views.default import list_view
+    file_content = io.open(os.path.join(HERE, '../scripts/index.html')).read()
+    response = list_view(httprequest)
+    assert file_content == response.text
 
 
-class TestMyViewFailureCondition(BaseTest):
+def test_list_view_is_good():
+    """Home view response has file content."""
+    from pyramid_learning_journal.views.default import list_view
+    response = list_view(httprequest)
+    assert response.status_code == 200
 
-    def test_failing_view(self):
-        from .views.default import my_view
-        info = my_view(dummy_request(self.session))
-        self.assertEqual(info.status_int, 500)
+
+# def test_home_view_raise_exception():
+#     """Home view raise exception."""
+#     from pyramid_learning_journal.views.default import list_view
+#     response =

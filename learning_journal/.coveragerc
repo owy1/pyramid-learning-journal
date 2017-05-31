@@ -1,3 +1,14 @@
 [run]
 source = learning_journal
-omit = learning_journal/test*
+omit = 
+    learning_journal/test*
+    learning_journal/models/*
+    learning_journal/scripts/*
+    learning_journal/data/*
+    learning_journal/views/notfound.py
+    learning_journal/views/__init__.py
+    learning_journal/routes.py
+    learning_journal/__init__.py
+
+[report]
+show_missing = True
