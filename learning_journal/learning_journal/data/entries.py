@@ -10,7 +10,7 @@ ENTRIES = [
     {
         "id": 1,
         "title": "Day 2",
-        "creation_date": "31",
+        "creation_date": "31st",
         "body": "Day 2 Testing"
     },
     {

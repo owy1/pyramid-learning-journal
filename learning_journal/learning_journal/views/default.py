@@ -1,6 +1,6 @@
 """Views for the pyramid learning journal application."""
 from pyramid.view import view_config
-from .data.entries import ENTRIES
+from ..data.entries import ENTRIES
 from pyramid.httpexceptions import HTTPNotFound
 import os
 
@@ -27,8 +27,9 @@ def list_view(request):
 def detail_view(request):
     """View details of an entry."""
     entry_id = int(request.matchdict['id'])
+    print(entry_id)
     try:
-        entry = ENTRIES[entry_id]
+        entry = ENTRIES[0]
     except IndexError:
         raise HTTPNotFound
     return {
@@ -46,10 +47,10 @@ def create_view(request):
     return {}
 
 
-@view_config(
-    route_name='update_view',
-    renderer='../templates/edit.jinja2'
-)
-def update_view(request):
-    """Update existing journal entries."""
-    return {}
+# @view_config(
+#     route_name='update_view',
+#     renderer='../templates/edit.jinja2'
+# )
+# def update_view(request):
+#     """Update existing journal entries."""
+#     return {}
