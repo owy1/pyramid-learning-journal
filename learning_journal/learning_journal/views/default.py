@@ -1,7 +1,7 @@
 """Views for the pyramid learning journal application."""
 from pyramid.view import view_config
-from ..data.entries import ENTRIES
 from pyramid.httpexceptions import HTTPNotFound
+from learning_journal.models.entries import Entry
 import os
 
 
@@ -14,11 +14,8 @@ HERE = os.path.dirname(__file__)
 )
 def list_view(request):
     """List of journal entries."""
-    return {
-        'title': 'Main',
-        'entries': ENTRIES
-    }
-
+    entries = request.dbsession.query(Entry).all()
+    return {'entries': entries}
 
 @view_config(
     route_name='detail_view',

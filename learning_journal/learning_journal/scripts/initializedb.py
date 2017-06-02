@@ -5,7 +5,7 @@ import transaction
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
-    )
+)
 
 from pyramid.scripts.common import parse_vars
 
@@ -14,9 +14,10 @@ from ..models import (
     get_engine,
     get_session_factory,
     get_tm_session,
-    )
-from ..models import MyModel
-
+)
+from learning_journal.models.entries import Entry
+from learning_journal.data.entries import ENTRIES
+from datetime import datetime
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -34,6 +35,7 @@ def main(argv=sys.argv):
     settings = get_appsettings(config_uri, options=options)
 
     engine = get_engine(settings)
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
     session_factory = get_session_factory(engine)
@@ -41,5 +43,13 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        model = MyModel(name='one', value=1)
-        dbsession.add(model)
+        many_models = []
+        for item in ENTRIES:
+            new_entry = Entry(
+                id=item['id'],
+                title=item['title'],
+                body=item['body'],
+                creation_date=datetime.now()
+            )
+            many_models.append(new_entry)
+        dbsession.add_all(many_models)
