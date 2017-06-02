@@ -46,3 +46,4 @@ def test_list_view_is_good():
 #     """Home view raise exception."""
 #     from pyramid_learning_journal.views.default import list_view
 #     response =
+

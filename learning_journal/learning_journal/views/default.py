@@ -27,11 +27,18 @@ def list_view(request):
 def detail_view(request):
     """View details of an entry."""
     entry_id = int(request.matchdict['id'])
-    print(entry_id)
-    try:
-        entry = ENTRIES[0]
-    except IndexError:
+    # print(entry_id)
+    # try:
+        # entry = None
+        # for item in ENTRIES:
+        #     if item['id'] == entry_id
+        #     entry = item
+        #     break
+    entry = list(filter(lambda item: item['id'] == entry_id, ENTRIES))    
+    # except IndexError:
+    if not entry:
         raise HTTPNotFound
+        
     return {
         'title': 'Detail',
         'entries': entry
