@@ -1,0 +1,9 @@
+{% extends 'layout.jinja2' %}
+{% block content %}
+    {% for entry in entries %}
+        <h1>{{ entry.title }}</h1>
+        <h6>{{ entry.creation_date }}</h6>
+        <p>{{ entry.body }}</p>
+        <a href="{{ request.route_url('detail_view', id=entry.id) }}"></a>
+    {% endfor %}
+{% endblock %}
