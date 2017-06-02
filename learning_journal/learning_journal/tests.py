@@ -47,3 +47,34 @@ def test_list_view_is_good():
 #     from pyramid_learning_journal.views.default import list_view
 #     response =
 
+
+def test_detail_view_contains_attr():
+    """Test that what's returned by view contains journal object."""
+    from learning_journal.views.default import detail_view
+    request = testing.DummyRequest()
+    info = detail_view(request)
+    for key in ["category", "creation_date", "id", "description", "amount"]:
+        assert key in info.keys()
+
+# @pytest.fixture()
+# def testapp():
+#     """Create an instance of our app for testing."""
+#     from expense_tracker import main
+#     app = main({})
+#     from webtest import TestApp
+#     return TestApp(app)
+
+# def test_layout_root(testapp):
+#     """Test that the contents of the root page contains <article>."""
+#     response = testapp.get('/', status=200)
+#     html = response.html
+#     assert 'Created in the Code Fellows 401 Python Program' in html.find("footer").text
+
+# def test_root_contents(testapp):
+#     """Test that the contents of the root page contains as many <article> tags as expenses."""
+#     from expense_tracker.data.expense_data import EXPENSES
+#     response = testapp.get('/', status=200)
+#     html = response.html
+#     assert len(EXPENSES) == len(html.findAll("article"))
+
+
