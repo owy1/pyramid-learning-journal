@@ -46,10 +46,10 @@ def main(argv=sys.argv):
         many_models = []
         for item in ENTRIES:
             new_entry = Entry(
-                id=item['id'],
+                # id=item['id'],
                 title=item['title'],
                 body=item['body'],
-                creation_date=datetime.now()
+                creation_date=datetime.datetime.now()
             )
             many_models.append(new_entry)
         dbsession.add_all(many_models)
