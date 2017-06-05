@@ -1,4 +1,22 @@
 {% extends 'layout.jinja2' %}
 {% block content %}
-    <h1>This is where we'll make new entries.</h1>
+    <h1>Add New Entry</h1>
+    <form method="POST">
+    <ul>
+        <li>
+            <label for="title">Title: </label>
+            <input type="text" name="title" value="{{ title }}" required/>
+        </li>
+        <li>
+            <label for="entry">Entry: </label>
+            <textarea name="entry">
+                {{ entry }}
+            </textarea>
+        </li>
+        <li>
+            <input type="submit" value="Submit New Entry" />
+        </li>
+    </ul>
+</form>
+            <button id="cancelBtn" class="btn">Cancel</button>
 {% endblock %}
