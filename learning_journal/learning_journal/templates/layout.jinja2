@@ -5,7 +5,12 @@
         <link rel="stylesheet" href="styles/index.css">
     </head>
     <body>
-        <a href="{{ request.route_url('list_view') }}"><button>Home</button></a>
+    {% if request.authenticated_userid %}
+    <a href="/logout"><button>Logout</button></a>
+    {% else %}
+    <a href="/login"><button>Login</button></a>
+    {% endif %}
+<a href="{{ request.route_url('list_view') }}"><button>Home</button></a>
     {% block content %}{% endblock %}
     </body>
 </html>

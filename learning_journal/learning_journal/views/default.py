@@ -4,12 +4,12 @@ from pyramid.httpexceptions import (
     HTTPNotFound,
     HTTPFound
 )
+from pyramid.security import remember, forget
+from learning_journal.security import check_credentials
 from learning_journal.models.entries import Entry
 import os
 import datetime
 
-
-HERE = os.path.dirname(__file__)
 
 
 @view_config(
@@ -43,7 +43,8 @@ def detail_view(request):
 
 @view_config(
     route_name='create_view',
-    renderer='../templates/new_entry.jinja2'
+    renderer='../templates/new_entry.jinja2',
+    permission='secret'
 )
 def create_view(request):
     """Create new journal entry instance."""
@@ -69,7 +70,8 @@ def create_view(request):
 
 @view_config(
     route_name='update_view',
-    renderer='../templates/edit.jinja2'
+    renderer='../templates/edit.jinja2',
+    permission='secret'
 )
 def update_view(request):
     """Update existing journal entries."""
@@ -90,3 +92,25 @@ def update_view(request):
         entries.body = request.POST['body']
         request.dbsession.flush()
         return HTTPFound(request.route_url('detail_view', id=entries.id))
+
+
+@view_config(
+    route_name='login',
+    renderer='../templates/login.jinja2')
+def login(request):
+    """Login the user."""
+    if request.method == 'POST':
+        username = request.params.get('username', '')
+        password = request.params.get('password', '')
+        if check_credentials(username, password):
+            headers = remember(request, username)
+            return HTTPFound(location=request.route_url('list_view'), headers=headers)
+        return {'error': 'Bad username or password'}
+    return {}
+
+
+@view_config(route_name='logout')
+def logout(request):
+    """Logout the user."""
+    headers = forget(request)
+    return HTTPFound(request.route_url('list_view'), headers=headers)
