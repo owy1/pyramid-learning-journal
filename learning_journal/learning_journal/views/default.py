@@ -89,6 +89,7 @@ def update_view(request):
     # with a post request, add the updated content to the database
     if request.method == "POST":
         entries.title = request.POST['title']
+        # import pdb; pdb.set_trace()
         entries.body = request.POST['body']
         request.dbsession.flush()
         return HTTPFound(request.route_url('detail_view', id=entries.id))
