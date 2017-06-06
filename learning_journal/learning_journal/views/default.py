@@ -48,10 +48,10 @@ def detail_view(request):
 def create_view(request):
     """Create new journal entry instance."""
     if request.method == "POST" and request.POST:
-        if not request.POST['title'] or not request.POST['entry']:
+        if not request.POST['title'] or not request.POST['body']:
             return {
                 'title': request.POST['title'],
-                'entry': request.POST['body'],
+                'body': request.POST['body'],
                 'error': "Hey dude, you're missing a little something"
             }
         new_entry = Entry(
@@ -90,4 +90,3 @@ def update_view(request):
         entries.body = request.POST['body']
         request.dbsession.flush()
         return HTTPFound(request.route_url('detail_view', id=entries.id))
-

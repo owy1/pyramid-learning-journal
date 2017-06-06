@@ -19,6 +19,7 @@ from learning_journal.models.entries import Entry
 from learning_journal.data.entries import ENTRIES
 from datetime import datetime
 
+
 def usage(argv):
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri> [var=value]\n'
@@ -49,7 +50,7 @@ def main(argv=sys.argv):
                 # id=item['id'],
                 title=item['title'],
                 body=item['body'],
-                creation_date=datetime.datetime.now()
+                creation_date=datetime.now()
             )
             many_models.append(new_entry)
         dbsession.add_all(many_models)
