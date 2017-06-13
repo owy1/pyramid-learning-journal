@@ -88,5 +88,38 @@ ENTRIES = [
         "creation_date": "June 2, 2017",
         "body": "Day 14 I learn to update and edit views on pyramid."
     },
+    {
+        "id": 14,
+        "title": "170605_ophelia",
+        "creation_date": "June 5, 2017",
+        "body": "Day 15 we use pyramid to build a used car sales site."
+    },
+    {
+        "id": 15,
+        "title": "170606_ophelia",
+        "creation_date": "June 6, 2017",
+        "body": "Day 16 I learn pyramid login and graphs."
+    },
+    {
+        "id": 16,
+        "title": "170607_ophelia",
+        "creation_date": "June 7, 2017",
+        "body": "Day 17 I learn http cookies, tokens and depth and breadth\
+         searches."
+    },
+    {
+        "id": 17,
+        "title": "170608_ophelia",
+        "creation_date": "June 8, 2017",
+        "body": "Day 18 I learn more pyramid testing and weighed graphs. \
+        Sean helped me with depth search algorithm."
+    },
+    {
+        "id": 18,
+        "title": "170609_ophelia",
+        "creation_date": "June 9, 2017",
+        "body": "Day 19 Career day I am re-learning how to write resume\
+        build elevator pitches."
+    }
 
 ]
